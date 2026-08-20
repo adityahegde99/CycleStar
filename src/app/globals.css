@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  --background: #09090b;
+  --foreground: #fafafa;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Dark-mode map tiles */
+.leaflet-tile-pane {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+.leaflet-container {
+  background: #09090b;
+  font-family: inherit;
+}
+
+.leaflet-control-zoom a {
+  background: #18181b;
+  border-color: #3f3f46;
+  color: #e4e4e7;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #27272a;
+  color: #fafafa;
+}
+
+.leaflet-control-attribution {
+  background: rgba(9, 9, 11, 0.8) !important;
+  color: #71717a;
+}
+
+.leaflet-control-attribution a {
+  color: #a1a1aa;
+}
+
+.leaflet-tooltip {
+  background: #18181b;
+  border: 1px solid #3f3f46;
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+  color: #f4f4f5;
+  font-size: 11px;
+  line-height: 1.55;
+  padding: 6px 8px;
+}
+
+.leaflet-tooltip-top::before {
+  border-top-color: #3f3f46;
+}
+
+.wind-tooltip-title {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.wind-arrow {
+  height: 34px;
+  pointer-events: none;
+  position: relative;
+  width: 26px;
+}
+
+.wind-arrow svg {
+  height: 20px;
+  left: 3px;
+  position: absolute;
+  top: 0;
+  transform: rotate(var(--wind-rotation, 0deg));
+  width: 20px;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+}
+
+.wind-arrow span {
+  bottom: 0;
+  color: #cbd5e1;
+  font-size: 9px;
+  font-weight: 600;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  text-shadow: 0 0 3px #000, 0 0 3px #000;
+  width: 100%;
+}

@@ -1,0 +1,9 @@
+{
+  "name": "VeloWind",
+  "short_name": "VeloWind",
+  "description": "Should you ride clockwise or counter-clockwise? Analyze wind on your cycling loop.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#10b981"
+}

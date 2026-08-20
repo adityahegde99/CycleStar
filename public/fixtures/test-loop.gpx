@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="VeloWind Test">
+  <trk>
+    <name>Test Loop</name>
+    <trkseg>
+      <trkpt lat="40.7580" lon="-73.9855"><ele>10</ele></trkpt>
+      <trkpt lat="40.7610" lon="-73.9800"><ele>12</ele></trkpt>
+      <trkpt lat="40.7650" lon="-73.9750"><ele>15</ele></trkpt>
+      <trkpt lat="40.7680" lon="-73.9800"><ele>14</ele></trkpt>
+      <trkpt lat="40.7650" lon="-73.9850"><ele>13</ele></trkpt>
+      <trkpt lat="40.7600" lon="-73.9880"><ele>11</ele></trkpt>
+      <trkpt lat="40.7580" lon="-73.9855"><ele>10</ele></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
