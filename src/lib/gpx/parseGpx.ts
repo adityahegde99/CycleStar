@@ -1,8 +1,7 @@
 import { gpx } from "@tmcw/togeojson";
 import { DOMParser } from "@xmldom/xmldom";
-import distance from "@turf/distance";
-import { point } from "@turf/helpers";
 import type { Feature, LineString } from "geojson";
+import { measurePathMeters, toRawRoute } from "@/lib/gpx/buildRoute";
 import type { RawRoute, TrackPoint } from "@/lib/types/track";
 
 function extractTrackPoints(feature: Feature<LineString>): TrackPoint[] {
@@ -25,14 +24,9 @@ function findLongestLineString(
     const pts = line.geometry.coordinates;
     if (pts.length < 2) continue;
 
-    let len = 0;
-    for (let i = 1; i < pts.length; i++) {
-      len += distance(
-        point([pts[i - 1][0], pts[i - 1][1]]),
-        point([pts[i][0], pts[i][1]]),
-        { units: "meters" }
-      );
-    }
+    const len = measurePathMeters(
+      pts.map(([lng, lat]) => ({ lng, lat }))
+    );
 
     if (len > bestLength) {
       bestLength = len;
@@ -58,19 +52,8 @@ export async function parseGpxFile(file: File): Promise<RawRoute> {
     throw new Error("GPX route must contain at least two points.");
   }
 
-  const totalDistanceM = points.slice(1).reduce((sum, p, i) => {
-    const prev = points[i];
-    return (
-      sum +
-      distance(point([prev.lng, prev.lat]), point([p.lng, p.lat]), {
-        units: "meters",
-      })
-    );
-  }, 0);
-
-  return {
+  return toRawRoute(
     points,
-    name: typeof line.properties?.name === "string" ? line.properties.name : undefined,
-    totalDistanceM,
-  };
+    typeof line.properties?.name === "string" ? line.properties.name : undefined
+  );
 }

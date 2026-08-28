@@ -6,7 +6,7 @@ import { parseGpxFile } from "@/lib/gpx/parseGpx";
 import { computeRouteMidpoint } from "@/lib/spatial/bbox";
 import { fetchOpenMeteoForecast } from "@/lib/weather/openMeteo";
 import { compareDirections } from "@/lib/wind/compareDirections";
-import { SPEED_RANGE, TIME_RANGE } from "@/lib/constants";
+import { DEFAULT_START_MINUTES, SPEED_RANGE } from "@/lib/constants";
 import type { RawRoute } from "@/lib/types/track";
 import type { SpeedUnit, WeatherForecast } from "@/lib/types/weather";
 import type {
@@ -34,7 +34,7 @@ export function useWindAnalysis() {
   const [rawRoute, setRawRoute] = useState<RawRoute | null>(null);
   const [routeName, setRouteName] = useState<string | undefined>();
   const [rideDate, setRideDate] = useState(() => format(new Date(), "yyyy-MM-dd"));
-  const [startMinutes, setStartMinutes] = useState(TIME_RANGE.defaultMinutes);
+  const [startMinutes, setStartMinutes] = useState(DEFAULT_START_MINUTES);
   const [averageSpeed, setAverageSpeed] = useState(SPEED_RANGE.mph.default);
   const [unit, setUnit] = useState<SpeedUnit>("mph");
   const [direction, setDirection] = useState<RideDirection>("clockwise");
@@ -101,27 +101,39 @@ export function useWindAnalysis() {
     []
   );
 
-  // Analysis itself is driven by the effect below, so uploading only has to parse
-  // and publish the route; that keeps a single code path for every recompute.
-  const handleFileUpload = useCallback(async (file: File) => {
-    setParsing(true);
+  // Analysis itself is driven by the effect below, so publishing a route is all
+  // any entry point has to do; that keeps a single code path for every recompute.
+  const loadRoute = useCallback((route: RawRoute, name: string) => {
     setError(null);
     setComparison(null);
     setForecast(null);
-
-    try {
-      const route = await parseGpxFile(file);
-      setRouteName(route.name ?? file.name.replace(/\.gpx$/i, ""));
-      setLoading(true);
-      setRawRoute(route);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to parse GPX file.");
-      setRawRoute(null);
-      setRouteName(undefined);
-    } finally {
-      setParsing(false);
-    }
+    setRouteName(name);
+    setLoading(true);
+    setRawRoute(route);
   }, []);
+
+  const handleFileUpload = useCallback(
+    async (file: File) => {
+      setParsing(true);
+      setError(null);
+      setComparison(null);
+      setForecast(null);
+
+      try {
+        const route = await parseGpxFile(file);
+        loadRoute(route, route.name ?? file.name.replace(/\.gpx$/i, ""));
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Failed to parse GPX file."
+        );
+        setRawRoute(null);
+        setRouteName(undefined);
+      } finally {
+        setParsing(false);
+      }
+    },
+    [loadRoute]
+  );
 
   useEffect(() => {
     if (!rawRoute) return;
@@ -171,5 +183,6 @@ export function useWindAnalysis() {
     parsing,
     error,
     handleFileUpload,
+    loadRoute,
   };
 }

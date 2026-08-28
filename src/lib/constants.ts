@@ -16,12 +16,7 @@ export const SPEED_RANGE = {
   kmh: { min: 16, max: 48, default: 29 },
 };
 
-export const TIME_RANGE = {
-  minMinutes: 6 * 60,
-  maxMinutes: 20 * 60,
-  stepMinutes: 15,
-  defaultMinutes: 10 * 60,
-};
+export const DEFAULT_START_MINUTES = 10 * 60;
 
 export const WIND_ARROW_INTERVAL = 3;
 

@@ -1,4 +1,4 @@
-# VeloWind
+# CycleStar
 
 A 100% client-side web app for cyclists. Drop a GPX file, set your start time and average speed, and instantly see whether to ride your loop **clockwise** or **counter-clockwise** based on wind.
 
@@ -30,7 +30,3 @@ Open [http://localhost:3000](http://localhost:3000).
 - Turf.js for spatial calculations
 - @tmcw/togeojson for GPX parsing
 - Open-Meteo Weather Forecast API
-
-## Deploy
-
-Deploy to Vercel with zero configuration — no environment variables required.
