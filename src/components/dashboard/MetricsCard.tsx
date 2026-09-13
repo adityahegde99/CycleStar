@@ -22,7 +22,7 @@ function MetricRow({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="flex items-center gap-2 text-sm text-zinc-400">
+      <span className="flex items-center gap-2 text-sm text-cs-muted">
         {color && (
           <span
             className="inline-block h-2.5 w-2.5 rounded-full"
@@ -31,7 +31,7 @@ function MetricRow({
         )}
         {label}
       </span>
-      <span className="text-sm font-semibold text-zinc-100">{value}</span>
+      <span className="text-sm font-semibold text-cs-text">{value}</span>
     </div>
   );
 }
@@ -44,27 +44,27 @@ export default function MetricsCard({
 }: MetricsCardProps) {
   if (loading) {
     return (
-      <div className="animate-pulse rounded-xl border border-zinc-800 bg-zinc-900/80 p-4 space-y-3">
-        <div className="h-4 w-24 rounded bg-zinc-800" />
-        <div className="h-3 w-full rounded bg-zinc-800" />
-        <div className="h-3 w-full rounded bg-zinc-800" />
-        <div className="h-3 w-3/4 rounded bg-zinc-800" />
+      <div className="animate-pulse space-y-3 rounded-xl border border-cs-border bg-cs-card p-4">
+        <div className="h-4 w-24 rounded bg-cs-chip" />
+        <div className="h-3 w-full rounded bg-cs-chip" />
+        <div className="h-3 w-full rounded bg-cs-chip" />
+        <div className="h-3 w-3/4 rounded bg-cs-chip" />
       </div>
     );
   }
 
   if (!summary) {
     return (
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/80 p-4">
-        <h3 className="mb-2 text-sm font-semibold text-zinc-300">Metrics</h3>
-        <p className="text-sm text-zinc-500">Upload a GPX to see wind metrics.</p>
+      <div className="rounded-xl border border-cs-border bg-cs-card p-4">
+        <h3 className="mb-2 text-sm font-semibold text-cs-text">Metrics</h3>
+        <p className="text-sm text-cs-subtle">Upload a GPX to see wind metrics.</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/80 p-4 space-y-3">
-      <h3 className="text-sm font-semibold text-zinc-300">Metrics</h3>
+    <div className="space-y-3 rounded-xl border border-cs-border bg-cs-card p-4">
+      <h3 className="text-sm font-semibold text-cs-text">Metrics</h3>
       <MetricRow
         label="Total Distance"
         value={formatDistance(summary.totalDistanceM, unit)}

@@ -86,7 +86,7 @@ export default function AnalyzeSidebar(props: AnalyzeSidebarProps) {
   }, [routeName]);
 
   return (
-    <div className="flex flex-1 flex-col gap-5 p-5">
+    <div className="flex flex-1 flex-col gap-4 p-3 lg:gap-5 lg:p-5">
       <FileDropzone
         onFile={handleFileUpload}
         parsing={parsing}
@@ -104,7 +104,7 @@ export default function AnalyzeSidebar(props: AnalyzeSidebarProps) {
         <StartTimeInput value={startMinutes} onChange={setStartMinutes} />
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-zinc-300">Units</span>
+            <span className="text-sm font-medium text-cs-text">Units</span>
             <UnitToggle value={unit} onChange={setUnit} />
           </div>
           <SpeedSlider
@@ -138,7 +138,7 @@ export default function AnalyzeSidebar(props: AnalyzeSidebarProps) {
           type="button"
           onClick={handleCopySummary}
           disabled={!canShareSummary || shareBusy}
-          className="flex items-center justify-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:border-zinc-500 disabled:opacity-40"
+          className="flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-cs-border bg-cs-input px-3 py-2.5 text-xs font-medium text-cs-text transition-colors hover:border-cs-muted disabled:opacity-40"
         >
           <Copy className="h-3.5 w-3.5" />
           Copy image
@@ -147,14 +147,14 @@ export default function AnalyzeSidebar(props: AnalyzeSidebarProps) {
           type="button"
           onClick={handleShareSummary}
           disabled={!canShareSummary || shareBusy}
-          className="flex items-center justify-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:border-zinc-500 disabled:opacity-40"
+          className="flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-cs-border bg-cs-input px-3 py-2.5 text-xs font-medium text-cs-text transition-colors hover:border-cs-muted disabled:opacity-40"
         >
           <Share2 className="h-3.5 w-3.5" />
           Share
         </button>
       </div>
       {shareMessage && (
-        <p className="text-xs text-zinc-500">{shareMessage}</p>
+        <p className="text-xs text-cs-subtle">{shareMessage}</p>
       )}
     </div>
   );

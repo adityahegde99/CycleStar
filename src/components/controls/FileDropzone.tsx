@@ -52,7 +52,7 @@ export default function FileDropzone({
       className={`cursor-pointer rounded-xl border-2 border-dashed p-6 text-center transition-colors ${
         dragOver
           ? "border-emerald-500 bg-emerald-500/10"
-          : "border-zinc-700 bg-zinc-900/50 hover:border-zinc-500"
+          : "border-cs-border bg-cs-card/50 hover:border-cs-muted"
       }`}
     >
       <input
@@ -66,24 +66,24 @@ export default function FileDropzone({
         }}
       />
       {parsing ? (
-        <div className="flex flex-col items-center gap-2 text-zinc-400">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-zinc-600 border-t-emerald-500" />
+        <div className="flex flex-col items-center gap-2 text-cs-muted">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-cs-border border-t-emerald-500" />
           <p className="text-sm">Parsing GPX…</p>
         </div>
       ) : routeName ? (
         <div className="flex flex-col items-center gap-2">
           <Upload className="h-8 w-8 text-emerald-500" />
-          <p className="font-medium text-zinc-100">{routeName}</p>
-          <p className="text-xs text-zinc-500">Click or drop to replace</p>
+          <p className="font-medium text-cs-text">{routeName}</p>
+          <p className="text-xs text-cs-subtle">Click or drop to replace</p>
         </div>
       ) : (
         <div className="flex flex-col items-center gap-2">
-          <Upload className="h-8 w-8 text-zinc-400" />
-          <p className="font-medium text-zinc-200">Drop your GPX file here</p>
-          <p className="text-xs text-zinc-500">or click to browse (.gpx only)</p>
+          <Upload className="h-8 w-8 text-cs-muted" />
+          <p className="font-medium text-cs-text">Drop your GPX file here</p>
+          <p className="text-xs text-cs-subtle">or click to browse (.gpx only)</p>
         </div>
       )}
-      <div className="mt-3 flex items-center justify-center gap-1 text-xs text-zinc-600">
+      <div className="mt-3 flex items-center justify-center gap-1 text-xs text-cs-subtle">
         <FileWarning className="h-3 w-3" />
         <span>FIT support coming soon</span>
       </div>

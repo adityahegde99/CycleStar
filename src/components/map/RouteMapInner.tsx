@@ -18,10 +18,10 @@ interface RouteMapInnerProps {
 
 function Legend() {
   return (
-    <div className="pointer-events-none absolute bottom-6 left-4 z-[600] rounded-lg border border-zinc-800 bg-zinc-950/85 px-3 py-2 backdrop-blur-sm">
+    <div className="pointer-events-none absolute bottom-16 left-3 z-[600] rounded-lg border border-cs-border bg-cs-overlay px-3 py-2 backdrop-blur-sm">
       <ul className="space-y-1">
         {(["headwind", "crosswind", "tailwind"] as const).map((key) => (
-          <li key={key} className="flex items-center gap-2 text-xs text-zinc-300">
+          <li key={key} className="flex items-center gap-2 text-xs text-cs-text">
             <span
               className="h-1 w-4 rounded-full"
               style={{ backgroundColor: WIND_COLORS[key] }}
@@ -30,7 +30,7 @@ function Legend() {
           </li>
         ))}
       </ul>
-      <p className="mt-2 border-t border-zinc-800 pt-1.5 text-[10px] text-zinc-500">
+      <p className="mt-2 border-t border-cs-border pt-1.5 text-[10px] text-cs-subtle">
         Arrows: wind on you. Gold labels: where the sun sits.
       </p>
     </div>
@@ -54,7 +54,10 @@ export default function RouteMapInner({ analysis, unit }: RouteMapInnerProps) {
       center: DEFAULT_CENTER,
       zoom: DEFAULT_ZOOM,
       preferCanvas: true,
+      zoomControl: false,
     });
+
+    L.control.zoom({ position: "bottomright" }).addTo(map);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:

@@ -125,7 +125,7 @@ export default function LocationSearch({ onSelect }: LocationSearchProps) {
   return (
     <div ref={rootRef} className="w-full">
       <div className="relative">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-cs-subtle" />
         <input
           type="search"
           value={query}
@@ -134,7 +134,7 @@ export default function LocationSearch({ onSelect }: LocationSearchProps) {
           onFocus={() => setOpen(true)}
           placeholder="Search for a place to start drawing"
           aria-label="Search for a place"
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-950/95 py-2.5 pl-9 pr-16 text-sm text-zinc-100 shadow-lg backdrop-blur-sm placeholder:text-zinc-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 [&::-webkit-search-cancel-button]:hidden"
+          className="w-full rounded-lg border border-cs-border bg-cs-overlay py-2.5 pl-9 pr-16 text-sm text-cs-text shadow-lg backdrop-blur-sm placeholder:text-cs-subtle focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 [&::-webkit-search-cancel-button]:hidden"
         />
         <div className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center gap-2">
           {searching && (
@@ -145,7 +145,7 @@ export default function LocationSearch({ onSelect }: LocationSearchProps) {
               type="button"
               onClick={clear}
               aria-label="Clear search"
-              className="text-zinc-500 transition-colors hover:text-zinc-200"
+              className="text-cs-subtle transition-colors hover:text-cs-text"
             >
               <X className="h-4 w-4" />
             </button>
@@ -154,11 +154,11 @@ export default function LocationSearch({ onSelect }: LocationSearchProps) {
       </div>
 
       {showPanel && (
-        <div className="mt-2 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950/95 shadow-xl backdrop-blur-sm">
+        <div className="mt-2 overflow-hidden rounded-lg border border-cs-border bg-cs-overlay shadow-xl backdrop-blur-sm">
           {error && <p className="px-3 py-2.5 text-xs text-amber-300">{error}</p>}
 
           {!error && results.length === 0 && (
-            <p className="px-3 py-2.5 text-xs text-zinc-500">
+            <p className="px-3 py-2.5 text-xs text-cs-subtle">
               No places matched that search.
             </p>
           )}
@@ -173,8 +173,8 @@ export default function LocationSearch({ onSelect }: LocationSearchProps) {
                     onMouseEnter={() => setActiveIndex(index)}
                     className={`block w-full px-3 py-2 text-left text-xs leading-relaxed transition-colors ${
                       index === activeIndex
-                        ? "bg-zinc-800 text-zinc-50"
-                        : "text-zinc-300"
+                        ? "bg-cs-hover text-cs-text"
+                        : "text-cs-muted"
                     }`}
                   >
                     {result.label}

@@ -16,7 +16,7 @@ export default function SpeedSlider({ value, unit, onChange }: SpeedSliderProps)
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="flex items-center gap-2 text-sm font-medium text-zinc-300">
+        <label className="flex items-center gap-2 text-sm font-medium text-cs-text">
           <Gauge className="h-4 w-4" />
           Average Speed
         </label>
@@ -33,7 +33,7 @@ export default function SpeedSlider({ value, unit, onChange }: SpeedSliderProps)
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full accent-emerald-500"
       />
-      <div className="flex justify-between text-xs text-zinc-600">
+      <div className="flex justify-between text-xs text-cs-subtle">
         <span>{formatSpeed(range.min, unit)}</span>
         <span>{formatSpeed(range.max, unit)}</span>
       </div>

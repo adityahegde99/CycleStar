@@ -8,6 +8,7 @@ import DrawSidebar from "@/components/draw/DrawSidebar";
 import RouteMap from "@/components/map/RouteMap";
 import DrawMap from "@/components/map/DrawMap";
 import LocationSearch from "@/components/map/LocationSearch";
+import MapTopBar from "@/components/map/MapTopBar";
 import { useWindAnalysis } from "@/hooks/useWindAnalysis";
 import { useRouteDrawer } from "@/hooks/useRouteDrawer";
 import { downloadGpx } from "@/lib/gpx/buildGpx";
@@ -17,16 +18,16 @@ import type { MapFocus } from "@/lib/types/map";
 
 function MapHint({ children }: { children: React.ReactNode }) {
   return (
-    <div className="pointer-events-none absolute inset-0 z-[500] flex items-center justify-center">
-      <div className="rounded-xl border border-zinc-800 bg-zinc-950/90 px-6 py-4 text-center backdrop-blur-sm">
-        <p className="text-sm text-zinc-400">{children}</p>
+    <div className="pointer-events-none absolute inset-0 z-[500] flex items-center justify-center px-4">
+      <div className="rounded-xl border border-cs-border bg-cs-overlay px-6 py-4 text-center shadow-lg backdrop-blur-sm">
+        <p className="text-sm text-cs-muted">{children}</p>
       </div>
     </div>
   );
 }
 
 export default function AppShell() {
-  const [tab, setTab] = useState<AppTab>("analyze");
+  const [tab, setTab] = useState<AppTab>("draw");
   const windState = useWindAnalysis();
   const drawer = useRouteDrawer();
   const [drawFocus, setDrawFocus] = useState<MapFocus | null>(null);
@@ -55,9 +56,9 @@ export default function AppShell() {
     !windState.rawRoute && !windState.loading && !windState.parsing;
 
   return (
-    <div className="grid h-screen grid-cols-1 lg:grid-cols-[384px_1fr]">
-      <aside className="flex h-full w-full flex-col overflow-y-auto border-r border-zinc-800 bg-zinc-950">
-        <div className="space-y-4 border-b border-zinc-800 p-5">
+    <div className="flex h-dvh flex-col overflow-hidden lg:grid lg:grid-cols-[384px_1fr]">
+      <aside className="order-2 flex min-h-0 flex-1 flex-col overflow-y-auto border-t border-cs-border bg-cs-sidebar pb-[env(safe-area-inset-bottom)] lg:order-1 lg:border-r lg:border-t-0">
+        <div className="space-y-3 border-b border-cs-border p-3 lg:space-y-4 lg:p-5">
           <div className="flex items-center gap-2.5">
             <span
               aria-hidden="true"
@@ -66,10 +67,10 @@ export default function AppShell() {
               ✬
             </span>
             <div>
-              <h1 className="text-lg font-bold tracking-tight text-zinc-50">
+              <h1 className="text-lg font-bold tracking-tight text-cs-text">
                 CycleStar
               </h1>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-cs-subtle">
                 Clockwise or counter-clockwise?
               </p>
             </div>
@@ -88,9 +89,9 @@ export default function AppShell() {
           />
         )}
 
-        <div className="mt-auto flex items-start gap-2 border-t border-zinc-800 p-5">
-          <Shield className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
-          <p className="text-xs leading-relaxed text-zinc-500">
+        <div className="mt-auto flex items-start gap-2 border-t border-cs-border p-3 lg:p-5">
+          <Shield className="mt-0.5 h-4 w-4 shrink-0 text-cs-subtle" />
+          <p className="text-xs leading-relaxed text-cs-subtle">
             Your files stay on this device. Coordinates are sent to Open-Meteo
             for wind data, and to the OpenStreetMap routing and place-search
             services when snapping drawn routes to roads or looking up a place.
@@ -98,7 +99,7 @@ export default function AppShell() {
         </div>
       </aside>
 
-      <main className="relative h-screen min-h-[400px]">
+      <main className="relative order-1 h-[48dvh] shrink-0 lg:order-2 lg:h-full lg:min-h-0">
         {tab === "analyze" ? (
           <>
             {showAnalyzeHint && (
@@ -106,6 +107,7 @@ export default function AppShell() {
                 Upload a GPX route to visualize wind along your ride
               </MapHint>
             )}
+            <MapTopBar />
             <RouteMap
               analysis={windState.activeAnalysis}
               unit={windState.unit}
@@ -113,13 +115,9 @@ export default function AppShell() {
           </>
         ) : (
           <>
-            {drawer.waypoints.length === 0 && (
-              <MapHint>Click the map to drop your first waypoint</MapHint>
-            )}
-            {/* Above Leaflet's own controls, which sit at z-index 1000. */}
-            <div className="absolute left-1/2 top-4 z-[1100] w-[min(26rem,calc(100%-2rem))] -translate-x-1/2">
+            <MapTopBar>
               <LocationSearch onSelect={handleLocationSelect} />
-            </div>
+            </MapTopBar>
             <DrawMap
               waypoints={drawer.waypoints}
               legs={drawer.legs}

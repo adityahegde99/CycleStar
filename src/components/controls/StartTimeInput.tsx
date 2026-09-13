@@ -18,7 +18,7 @@ export default function StartTimeInput({ value, onChange }: StartTimeInputProps)
     <div className="space-y-2">
       <label
         htmlFor="start-time"
-        className="flex items-center gap-2 text-sm font-medium text-zinc-300"
+        className="flex items-center gap-2 text-sm font-medium text-cs-text"
       >
         <Clock className="h-4 w-4" />
         Start Time
@@ -34,7 +34,7 @@ export default function StartTimeInput({ value, onChange }: StartTimeInputProps)
             onChange(h * 60 + m);
           }
         }}
-        className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 [&::-webkit-calendar-picker-indicator]:invert"
+        className="cs-time-input w-full rounded-lg border border-cs-border bg-cs-input px-3 py-2.5 text-sm text-cs-text focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
       />
     </div>
   );

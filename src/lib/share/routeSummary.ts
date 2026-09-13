@@ -23,7 +23,11 @@ function toPngFilename(name: string): string {
 }
 
 export async function renderSummaryPngBlob(el: HTMLElement): Promise<Blob> {
-  const blob = await toBlob(el, PNG_OPTIONS);
+  const backgroundColor =
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--cs-bg")
+      .trim() || "#09090b";
+  const blob = await toBlob(el, { ...PNG_OPTIONS, backgroundColor });
   if (!blob) {
     throw new Error("Could not render the route summary image.");
   }

@@ -10,8 +10,8 @@ interface TabBarProps {
 }
 
 const TABS: { id: AppTab; label: string; Icon: typeof Wind }[] = [
-  { id: "analyze", label: "Wind Analyzer", Icon: Wind },
   { id: "draw", label: "Route Builder", Icon: PenLine },
+  { id: "analyze", label: "Wind Analyzer", Icon: Wind },
 ];
 
 export default function TabBar({ value, onChange }: TabBarProps) {
@@ -22,10 +22,10 @@ export default function TabBar({ value, onChange }: TabBarProps) {
           key={id}
           type="button"
           onClick={() => onChange(id)}
-          className={`flex items-center justify-center gap-2 rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
+          className={`flex min-h-11 items-center justify-center gap-2 rounded-lg border px-3 py-2.5 text-xs font-medium transition-colors ${
             value === id
-              ? "border-emerald-500 bg-emerald-500/20 text-emerald-300"
-              : "border-zinc-700 bg-zinc-900 text-zinc-400 hover:border-zinc-500"
+              ? "border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300"
+              : "border-cs-border bg-cs-input text-cs-muted hover:border-cs-muted"
           }`}
         >
           <Icon className="h-4 w-4" />
