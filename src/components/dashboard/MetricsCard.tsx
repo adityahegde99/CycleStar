@@ -2,10 +2,11 @@
 
 import { formatDistance, formatSpeed } from "@/lib/constants";
 import type { SpeedUnit } from "@/lib/types/weather";
-import type { RouteWindSummary } from "@/lib/types/wind";
+import type { GlareSummary, RouteWindSummary } from "@/lib/types/wind";
 
 interface MetricsCardProps {
   summary: RouteWindSummary | null;
+  glare?: GlareSummary | null;
   unit: SpeedUnit;
   loading?: boolean;
 }
@@ -35,7 +36,12 @@ function MetricRow({
   );
 }
 
-export default function MetricsCard({ summary, unit, loading }: MetricsCardProps) {
+export default function MetricsCard({
+  summary,
+  glare,
+  unit,
+  loading,
+}: MetricsCardProps) {
   if (loading) {
     return (
       <div className="animate-pulse rounded-xl border border-zinc-800 bg-zinc-900/80 p-4 space-y-3">
@@ -81,6 +87,15 @@ export default function MetricsCard({ summary, unit, loading }: MetricsCardProps
       <MetricRow
         label="Avg Headwind"
         value={formatSpeed(summary.avgHeadwindSpeed, unit)}
+      />
+      <MetricRow
+        label="Sun in eyes"
+        value={
+          glare && glare.totalGlareDistance > 0
+            ? `${formatDistance(glare.totalGlareDistance, unit)} (${glare.glarePercent.toFixed(0)}%)`
+            : "None"
+        }
+        color="#fbbf24"
       />
 
       <div className="mt-2 flex h-2 overflow-hidden rounded-full">

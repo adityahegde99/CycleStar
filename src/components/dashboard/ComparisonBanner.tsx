@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Minus } from "lucide-react";
+import { ArrowRight, Minus, Sun } from "lucide-react";
 import type { DirectionComparison } from "@/lib/types/wind";
 
 interface ComparisonBannerProps {
@@ -22,7 +22,7 @@ export default function ComparisonBanner({
 
   if (!comparison) return null;
 
-  const { recommendation, bannerText } = comparison;
+  const { recommendation, bannerText, sunText, sunAltText } = comparison;
   const isNeutral = recommendation === "neutral";
 
   return (
@@ -44,6 +44,20 @@ export default function ComparisonBanner({
         </span>
       </div>
       <p className="text-sm leading-relaxed text-zinc-100">{bannerText}</p>
+      <div className="mt-3 border-t border-zinc-700/80 pt-3">
+        <div className="mb-1.5 flex items-center gap-2">
+          <Sun className="h-4 w-4 text-amber-400" />
+          <span className="text-xs font-semibold uppercase tracking-wide text-zinc-400">
+            Sun and shade
+          </span>
+        </div>
+        <p className="text-sm leading-relaxed text-amber-100/90">{sunText}</p>
+        {sunAltText && (
+          <p className="mt-1.5 text-xs leading-relaxed text-zinc-400">
+            {sunAltText}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

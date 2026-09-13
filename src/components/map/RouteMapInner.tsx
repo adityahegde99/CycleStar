@@ -31,7 +31,7 @@ function Legend() {
         ))}
       </ul>
       <p className="mt-2 border-t border-zinc-800 pt-1.5 text-[10px] text-zinc-500">
-        Arrows show where wind blows to
+        Arrows: wind on you. Gold labels: where the sun sits.
       </p>
     </div>
   );
@@ -41,6 +41,7 @@ export default function RouteMapInner({ analysis, unit }: RouteMapInnerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const overlayRef = useRef<L.LayerGroup | null>(null);
+  const fittedRouteKeyRef = useRef<string | null>(null);
 
   // Leaflet owns the container imperatively, so creation and teardown are paired
   // here. map.remove() clears Leaflet's internal container id, which is what makes
@@ -81,19 +82,27 @@ export default function RouteMapInner({ analysis, unit }: RouteMapInnerProps) {
     if (!map || !overlay) return;
 
     overlay.clearLayers();
-    if (!analysis) return;
+    if (!analysis) {
+      fittedRouteKeyRef.current = null;
+      return;
+    }
 
     for (const layer of buildSegmentLayers(analysis.segments, unit)) {
       overlay.addLayer(layer);
     }
-    for (const layer of buildWindArrowLayers(analysis.segments)) {
+    for (const layer of buildWindArrowLayers(analysis.segments, unit)) {
       overlay.addLayer(layer);
     }
 
-    const [minLat, minLng, maxLat, maxLng] = analysis.bbox;
-    map.fitBounds(L.latLngBounds([minLat, minLng], [maxLat, maxLng]), {
-      padding: [40, 40],
-    });
+    const routeKey = analysis.bbox.join(",");
+    if (fittedRouteKeyRef.current !== routeKey) {
+      fittedRouteKeyRef.current = routeKey;
+      const [minLat, minLng, maxLat, maxLng] = analysis.bbox;
+      map.fitBounds(L.latLngBounds([minLat, minLng], [maxLat, maxLng]), {
+        padding: [40, 40],
+        animate: false,
+      });
+    }
   }, [analysis, unit]);
 
   return (

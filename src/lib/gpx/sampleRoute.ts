@@ -4,6 +4,7 @@ import distance from "@turf/distance";
 import { lineString, point } from "@turf/helpers";
 import length from "@turf/length";
 import { SEGMENT_LENGTH_M } from "@/lib/constants";
+import { flipBearing } from "@/lib/spatial/bearings";
 import type { GPXSegment } from "@/lib/types/segment";
 import type { RawRoute, TrackPoint } from "@/lib/types/track";
 
@@ -22,10 +23,9 @@ function interpolatePoint(
 
 export function sampleRouteSegments(
   route: RawRoute,
-  segmentLengthM: number = SEGMENT_LENGTH_M,
-  reverse: boolean = false
+  segmentLengthM: number = SEGMENT_LENGTH_M
 ): GPXSegment[] {
-  const orderedPoints = reverse ? [...route.points].reverse() : route.points;
+  const orderedPoints = route.points;
   const coords = orderedPoints.map((p) => [p.lng, p.lat] as [number, number]);
   const line = lineString(coords);
   const totalKm = length(line, { units: "kilometers" });
@@ -91,4 +91,22 @@ export function sampleRouteSegments(
   }
 
   return segments;
+}
+
+/** Ride the opposite way on the same sampled geometry so the drawn path never shifts. */
+export function orientSegmentsForDirection(
+  segments: GPXSegment[],
+  reverse: boolean
+): GPXSegment[] {
+  if (!reverse) {
+    return segments.map((seg, index) => ({ ...seg, index }));
+  }
+
+  const totalM = segments.reduce((sum, seg) => sum + seg.distanceM, 0);
+  return segments.map((seg, index) => ({
+    ...seg,
+    index,
+    riderBearingDeg: flipBearing(seg.riderBearingDeg),
+    cumulativeDistanceM: totalM - seg.cumulativeDistanceM - seg.distanceM,
+  }));
 }

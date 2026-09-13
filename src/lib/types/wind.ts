@@ -1,4 +1,4 @@
-import type { GPXSegment } from "./segment";
+import type { GPXSegment, SunExposureKind } from "./segment";
 import type { WeatherForecast } from "./weather";
 
 export type WindClassification = "headwind" | "crosswind" | "tailwind";
@@ -25,10 +25,31 @@ export interface RouteWindSummary {
   avgHeadwindSpeed: number;
 }
 
+export interface GlareStretch {
+  startDistanceM: number;
+  endDistanceM: number;
+  startTime: Date;
+  endTime: Date;
+}
+
+export interface GlareSummary {
+  totalGlareDistance: number;
+  highGlareSegments: GPXSegment[];
+  glarePercent: number;
+  belowHorizonPercent: number;
+  behindPercent: number;
+  leftPercent: number;
+  rightPercent: number;
+  overheadPercent: number;
+  stretches: GlareStretch[];
+  dominantExposure: SunExposureKind;
+}
+
 export interface WindAnalysisResult {
   direction: RideDirection;
   segments: SegmentWindResult[];
   summary: RouteWindSummary;
+  glare: GlareSummary;
   forecast: WeatherForecast;
   bbox: [number, number, number, number];
   midpoint: { lat: number; lng: number };
@@ -39,6 +60,8 @@ export interface DirectionComparison {
   counterClockwise: WindAnalysisResult;
   recommendation: RideDirection | "neutral";
   bannerText: string;
+  sunText: string;
+  sunAltText?: string;
 }
 
 export interface RideParams {

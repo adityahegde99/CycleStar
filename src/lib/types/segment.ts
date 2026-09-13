@@ -9,4 +9,16 @@ export interface GPXSegment {
   cumulativeDistanceM: number;
   riderBearingDeg: number;
   estimatedArrival: Date;
+  sunAzimuth?: number;
+  sunAltitude?: number;
+  isHighGlare?: boolean;
+  sunExposure?: SunExposureKind;
 }
+
+export type SunExposureKind =
+  | "in-eyes"
+  | "behind"
+  | "left"
+  | "right"
+  | "overhead"
+  | "below-horizon";

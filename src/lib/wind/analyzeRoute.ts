@@ -1,8 +1,9 @@
 import { addSeconds } from "date-fns";
 import { speedToMps } from "@/lib/constants";
-import { sampleRouteSegments } from "@/lib/gpx/sampleRoute";
+import { orientSegmentsForDirection, sampleRouteSegments } from "@/lib/gpx/sampleRoute";
 import { computeRouteBbox, computeRouteMidpoint } from "@/lib/spatial/bbox";
 import { findNearestHourlyWind } from "@/lib/weather/matchHourly";
+import { enrichSegmentGlare, summarizeGlare } from "@/lib/solar/analyzeGlare";
 import { analyzeSegmentWind } from "@/lib/wind/trigonometry";
 import type { WeatherForecast } from "@/lib/types/weather";
 import type { RawRoute } from "@/lib/types/track";
@@ -77,12 +78,15 @@ export function analyzeRouteWind(
   forecast: WeatherForecast,
   direction: RideDirection
 ): WindAnalysisResult {
-  const reverse = direction === "counter-clockwise";
-  const sampled = sampleRouteSegments(route, undefined, reverse);
+  const sampled = orientSegmentsForDirection(
+    sampleRouteSegments(route),
+    direction === "counter-clockwise"
+  );
   const speedMps = speedToMps(params.averageSpeed, params.unit);
   const withTimes = assignArrivalTimes(sampled, params.startTime, speedMps);
 
-  const segments = withTimes.map((seg) =>
+  const withGlare = withTimes.map(enrichSegmentGlare);
+  const segments = withGlare.map((seg) =>
     analyzeSegmentWind(seg, findNearestHourlyWind(forecast, seg.estimatedArrival))
   );
 
@@ -90,6 +94,7 @@ export function analyzeRouteWind(
     direction,
     segments,
     summary: summarizeSegments(segments),
+    glare: summarizeGlare(withGlare),
     forecast,
     bbox: computeRouteBbox(route),
     midpoint: computeRouteMidpoint(route),
