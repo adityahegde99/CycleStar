@@ -19,7 +19,7 @@ function toPngFilename(name: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-  return `${slug || "velowind-summary"}.png`;
+  return `${slug || "cyclestar-summary"}.png`;
 }
 
 export async function renderSummaryPngBlob(el: HTMLElement): Promise<Blob> {

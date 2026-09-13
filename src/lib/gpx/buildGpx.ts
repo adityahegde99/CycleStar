@@ -10,13 +10,13 @@ function escapeXml(value: string): string {
 }
 
 export function buildGpx(points: TrackPoint[], name: string): string {
-  const safeName = escapeXml(name.trim() || "VeloWind Route");
+  const safeName = escapeXml(name.trim() || "CycleStar Route");
   const trackpoints = points
     .map((p) => `      <trkpt lat="${p.lat.toFixed(7)}" lon="${p.lng.toFixed(7)}" />`)
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="VeloWind" xmlns="http://www.topografix.com/GPX/1/1">
+<gpx version="1.1" creator="CycleStar" xmlns="http://www.topografix.com/GPX/1/1">
   <metadata>
     <name>${safeName}</name>
     <time>${new Date().toISOString()}</time>
@@ -38,7 +38,7 @@ export function toGpxFilename(name: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-  return `${slug || "velowind-route"}.gpx`;
+  return `${slug || "cyclestar-route"}.gpx`;
 }
 
 export function downloadGpx(points: TrackPoint[], name: string): void {

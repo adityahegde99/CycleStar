@@ -1,6 +1,6 @@
 {
-  "name": "VeloWind",
-  "short_name": "VeloWind",
+  "name": "CycleStar",
+  "short_name": "CycleStar",
   "description": "Should you ride clockwise or counter-clockwise? Analyze wind on your cycling loop.",
   "start_url": "/",
   "display": "standalone",

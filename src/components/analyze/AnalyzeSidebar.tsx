@@ -67,13 +67,13 @@ export default function AnalyzeSidebar(props: AnalyzeSidebarProps) {
     const el = document.getElementById("analysis-summary");
     if (!el) return;
 
-    const title = routeName?.trim() || "VeloWind route";
+    const title = routeName?.trim() || "CycleStar route";
     setShareBusy(true);
     setShareMessage(null);
     try {
       await shareRouteSummary(el, {
         title,
-        text: "Wind analysis from VeloWind",
+        text: "Wind analysis from CycleStar",
       });
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") return;

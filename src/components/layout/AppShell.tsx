@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Shield, Wind } from "lucide-react";
+import { Shield } from "lucide-react";
 import TabBar, { type AppTab } from "@/components/layout/TabBar";
 import AnalyzeSidebar from "@/components/analyze/AnalyzeSidebar";
 import DrawSidebar from "@/components/draw/DrawSidebar";
@@ -58,11 +58,16 @@ export default function AppShell() {
     <div className="grid h-screen grid-cols-1 lg:grid-cols-[384px_1fr]">
       <aside className="flex h-full w-full flex-col overflow-y-auto border-r border-zinc-800 bg-zinc-950">
         <div className="space-y-4 border-b border-zinc-800 p-5">
-          <div className="flex items-center gap-2">
-            <Wind className="h-6 w-6 text-emerald-500" />
+          <div className="flex items-center gap-2.5">
+            <span
+              aria-hidden="true"
+              className="select-none text-2xl leading-none text-amber-400"
+            >
+              ✬
+            </span>
             <div>
               <h1 className="text-lg font-bold tracking-tight text-zinc-50">
-                VeloWind
+                CycleStar
               </h1>
               <p className="text-xs text-zinc-500">
                 Clockwise or counter-clockwise?
